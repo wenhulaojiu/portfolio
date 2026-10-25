@@ -542,3 +542,80 @@ button { font-family: inherit; }
   *, *::before, *::after { animation: none !important; transition: none !important; }
   .reveal, .reveal-up { opacity: 1; transform: none; }
 }
+
+/* ============================================================
+   交互增强层：自定义光标 / 磁吸 / 逐字入场 / 噪点 / 标题下划线
+   ============================================================ */
+
+/* --- 自定义光标（仅桌面精确指针） --- */
+.cursor-dot, .cursor-ring { display: none; }
+html.fine-pointer { }
+@media (hover: hover) and (pointer: fine) {
+  html.fine-pointer body { cursor: none; }
+  html.fine-pointer a, html.fine-pointer button { cursor: none; }
+  html.fine-pointer input, html.fine-pointer textarea { cursor: text; }
+  html.fine-pointer .cursor-dot {
+    display: block; position: fixed; top: 0; left: 0; z-index: 1000;
+    width: 7px; height: 7px; margin: -3.5px 0 0 -3.5px; border-radius: 50%;
+    background: var(--amber); pointer-events: none;
+  }
+  html.fine-pointer .cursor-ring {
+    display: block; position: fixed; top: 0; left: 0; z-index: 999;
+    width: 36px; height: 36px; margin: -18px 0 0 -18px; border-radius: 50%;
+    border: 1.5px solid color-mix(in srgb, var(--amber) 55%, transparent);
+    pointer-events: none;
+    transition: width 0.25s var(--ease), height 0.25s var(--ease),
+      margin 0.25s var(--ease), border-color 0.25s, background 0.25s;
+  }
+  html.fine-pointer .cursor-ring.hovered {
+    width: 58px; height: 58px; margin: -29px 0 0 -29px;
+    background: color-mix(in srgb, var(--amber) 8%, transparent);
+  }
+  html.fine-pointer .cursor-ring.pressed {
+    width: 26px; height: 26px; margin: -13px 0 0 -13px;
+  }
+}
+
+/* --- 磁吸元素 --- */
+[data-magnetic] { will-change: transform; }
+
+/* --- Hero 名字逐字入场 --- */
+.hero-char {
+  display: inline-block; opacity: 0;
+  transform: translateY(0.55em) rotate(4deg);
+  animation: charRise 0.85s var(--ease) forwards;
+}
+@keyframes charRise {
+  60% { transform: translateY(-0.04em) rotate(-1deg); }
+  100% { opacity: 1; transform: translateY(0) rotate(0); }
+}
+
+/* --- 胶片噪点（全站极淡颗粒） --- */
+body::after {
+  content: ""; position: fixed; inset: 0; z-index: 998; pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.42 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 240px 240px; opacity: 0.05;
+  animation: grainShift 1.1s steps(6) infinite;
+}
+@keyframes grainShift {
+  0% { background-position: 0 0; }
+  25% { background-position: -60px 40px; }
+  50% { background-position: 50px -70px; }
+  75% { background-position: -40px -30px; }
+  100% { background-position: 0 0; }
+}
+[data-theme="light"] body::after { opacity: 0.035; }
+
+/* --- 分节标题：琥珀下划线划入 --- */
+.sec-title { position: relative; display: inline-block; }
+.sec-title::after {
+  content: ""; position: absolute; left: 0; bottom: -8px; height: 3px;
+  width: 0; background: var(--amber); transition: width 0.9s var(--ease) 0.25s;
+}
+.sec-title.visible::after { width: 64px; }
+
+/* 触屏 / 减少动画时关掉增强层 */
+@media (prefers-reduced-motion: reduce) {
+  .cursor-dot, .cursor-ring, body::after { display: none !important; }
+  .hero-char { opacity: 1; transform: none; animation: none; }
+}

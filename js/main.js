@@ -113,6 +113,17 @@ let ri = 0, ci = 0, del = false;
     const linkDist = 130 * devicePixelRatio;
     for (const p of pts) {
       p.x += p.vx; p.y += p.vy;
+      // 鼠标轻推：靠近时被轻微排斥，产生「拨开星群」的手感
+      const mdx = p.x - mouse.x, mdy = p.y - mouse.y;
+      const md = Math.hypot(mdx, mdy);
+      const reach = 110 * devicePixelRatio;
+      if (md < reach && md > 0.001) {
+        const f = ((reach - md) / reach) * 0.06;
+        p.vx += (mdx / md) * f; p.vy += (mdy / md) * f;
+      }
+      // 限速，防止推力累积失控
+      const sp = Math.hypot(p.vx, p.vy), maxSp = 0.5 * devicePixelRatio;
+      if (sp > maxSp) { p.vx = (p.vx / sp) * maxSp; p.vy = (p.vy / sp) * maxSp; }
       if (p.x < 0 || p.x > W) p.vx *= -1;
       if (p.y < 0 || p.y > H) p.vy *= -1;
     }
@@ -133,10 +144,19 @@ let ri = 0, ci = 0, del = false;
       }
     }
     ctx.globalAlpha = 1;
-    // 节点（靠近鼠标的放大）
+    // 节点（靠近鼠标的放大）+ 光标与邻近节点连线
+    const linkReach = 150 * devicePixelRatio;
     for (const p of pts) {
       const md = Math.hypot(p.x - mouse.x, p.y - mouse.y);
       const boost = md < 120 * devicePixelRatio ? 1.9 : 1;
+      if (md < linkReach) {
+        ctx.strokeStyle = `rgba(${colors.accent},${(1 - md / linkReach) * 0.55})`;
+        ctx.lineWidth = devicePixelRatio * 0.8;
+        ctx.beginPath();
+        ctx.moveTo(mouse.x, mouse.y);
+        ctx.lineTo(p.x, p.y);
+        ctx.stroke();
+      }
       ctx.fillStyle = p.hot ? `rgba(${colors.accent},0.9)` : colors.dot;
       ctx.beginPath();
       ctx.arc(p.x, p.y, p.r * boost, 0, Math.PI * 2);
@@ -387,3 +407,128 @@ async function callRealLLM(question) {
   return (await res.json()).reply;
 }
 */
+
+/* ============ 13. 交互增强层 ============
+   全部带环境探测：触屏 / 减少动画偏好下自动关闭 ============ */
+
+const finePointer =
+  matchMedia("(hover: hover) and (pointer: fine)").matches &&
+  !matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+/* --- 13a. Hero 名字逐字入场（错峰 + 微旋转） --- */
+(function heroChars() {
+  const line = document.querySelector(".hero-line");
+  if (!line) return;
+  const text = line.textContent.trim();
+  line.classList.remove("reveal-up"); // 入场交给逐字动画，避免两层动画打架
+  line.innerHTML = [...text]
+    .map((ch, i) => `<span class="hero-char" style="animation-delay:${1.55 + i * 0.12}s">${ch}</span>`)
+    .join("");
+})();
+
+/* --- 13b. 自定义光标：琥珀点 + 跟随环，悬停可点元素时环放大 --- */
+(function customCursor() {
+  if (!finePointer) return;
+  document.documentElement.classList.add("fine-pointer");
+  const dot = document.createElement("div");
+  dot.className = "cursor-dot";
+  const ring = document.createElement("div");
+  ring.className = "cursor-ring";
+  document.body.append(dot, ring);
+
+  let x = innerWidth / 2, y = innerHeight / 2, rx = x, ry = y;
+  addEventListener("mousemove", (e) => {
+    x = e.clientX; y = e.clientY;
+    dot.style.transform = `translate(${x}px, ${y}px)`;
+    const t = e.target.closest("a, button, input, .project-row, .skill-cell, .contact-card");
+    ring.classList.toggle("hovered", !!t);
+  }, { passive: true });
+  addEventListener("mousedown", () => ring.classList.add("pressed"));
+  addEventListener("mouseup", () => ring.classList.remove("pressed"));
+  document.body.addEventListener("mouseleave", () => { dot.style.opacity = ring.style.opacity = "0"; });
+  document.body.addEventListener("mouseenter", () => { dot.style.opacity = ring.style.opacity = "1"; });
+
+  (function follow() {
+    rx += (x - rx) * 0.16; ry += (y - ry) * 0.16; // 环带一点延迟，产生拖尾感
+    ring.style.transform = `translate(${rx}px, ${ry}px)`;
+    requestAnimationFrame(follow);
+  })();
+})();
+
+/* --- 13c. 磁吸按钮：光标靠近时按钮轻微被吸过来 --- */
+(function magnetic() {
+  if (!finePointer) return;
+  document.querySelectorAll(".hero-actions .btn, .nav-cta, .back-top").forEach((el) => {
+    el.dataset.magnetic = "1";
+    el.addEventListener("mousemove", (e) => {
+      const r = el.getBoundingClientRect();
+      const dx = e.clientX - (r.left + r.width / 2);
+      const dy = e.clientY - (r.top + r.height / 2);
+      el.style.animation = "none"; // 已结束的入场动画会锁住 transform，先解除
+      el.style.transition = "transform 0.15s cubic-bezier(0.22, 1, 0.36, 1)";
+      el.style.transform = `translate(${dx * 0.22}px, ${dy * 0.3}px)`;
+    });
+    el.addEventListener("mouseleave", () => {
+      el.style.transition = "transform 0.45s cubic-bezier(0.22, 1, 0.36, 1)";
+      el.style.transform = "";
+    });
+  });
+})();
+
+/* --- 13d. 文字解码特效：悬停等宽标签时字符乱序滚入 --- */
+(function decodeLabels() {
+  if (!finePointer) return;
+  const CHARS = "!<>-_/[]{}—=+*^?#";
+  function decode(el) {
+    if (el.dataset.decoding) return;
+    const orig = el.dataset.orig || (el.dataset.orig = el.textContent);
+    el.dataset.decoding = "1";
+    let frame = 0;
+    const total = Math.max(12, orig.length * 2);
+    const timer = setInterval(() => {
+      frame++;
+      const reveal = Math.floor((frame / total) * orig.length);
+      el.textContent = [...orig]
+        .map((ch, i) =>
+          i < reveal || ch === " " ? ch : CHARS[(Math.random() * CHARS.length) | 0]
+        )
+        .join("");
+      if (reveal >= orig.length) {
+        clearInterval(timer);
+        el.textContent = orig;
+        delete el.dataset.decoding;
+      }
+    }, 28);
+  }
+  document.querySelectorAll(".sec-label, .nav-links a, .cc-label").forEach((el) =>
+    el.addEventListener("mouseenter", () => decode(el))
+  );
+})();
+
+/* --- 13e. Hero 滚动视差：内容上移淡出，星座层 slower --- */
+(function heroParallax() {
+  const inner = document.querySelector(".hero-inner");
+  const hint = document.querySelector(".scroll-hint");
+  if (!inner) return;
+  let ticking = false;
+  function update() {
+    ticking = false;
+    const y = scrollY;
+    if (y > innerHeight * 1.3) return;
+    inner.style.transform = `translateY(${y * 0.14}px)`;
+    inner.style.opacity = Math.max(0, 1 - y / (innerHeight * 0.75));
+    if (hint) hint.style.opacity = Math.max(0, 1 - y / 300);
+  }
+  addEventListener("scroll", () => {
+    if (!ticking) { ticking = true; requestAnimationFrame(update); }
+  }, { passive: true });
+})();
+
+/* --- 13f. 彩蛋：切走标签页时换标题 --- */
+(function titleEgg() {
+  const origTitle = document.title;
+  const awayTitle = "🌲 别走，星座还在闪";
+  document.addEventListener("visibilitychange", () => {
+    document.title = document.hidden ? awayTitle : origTitle;
+  });
+})();
