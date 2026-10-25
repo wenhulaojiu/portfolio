@@ -66,17 +66,20 @@ sectionIds.forEach((id) => {
 
 /* ============ 6. 打字机 ============ */
 const typingEl = document.getElementById("typing");
-const roles = DATA.typingRoles;
 let ri = 0, ci = 0, del = false;
-(function typeLoop() {
-  const word = roles[ri];
+function typeLoop() {
+  const roles = currentLang() === "en" ? DATA.typingRolesEn : DATA.typingRoles;
+  const word = roles[ri] ?? roles[0];
   typingEl.textContent = word.slice(0, ci);
   let delay = del ? 45 : 120;
   if (!del && ci === word.length) { delay = 1700; del = true; }
   else if (del && ci === 0) { del = false; ri = (ri + 1) % roles.length; delay = 380; }
   else ci += del ? -1 : 1;
   setTimeout(typeLoop, delay);
-})();
+}
+typeLoop();
+// 切换语言时重置打字进度
+window.addEventListener("langchange", () => { ri = 0; ci = 0; del = false; });
 
 /* ============ 7. HERO 星座连线 Canvas ============ */
 (function constellation() {
@@ -179,75 +182,100 @@ let ri = 0, ci = 0, del = false;
   if (!matchMedia("(prefers-reduced-motion: reduce)").matches) tick();
 })();
 
-/* ============ 8. 渲染数据 ============ */
-// 跑马灯（内容渲染两遍实现无缝循环）
+/* ============ 8. 渲染数据（双语：跟随 currentLang()） ============ */
+// 跑马灯（内容渲染两遍实现无缝循环，术语两种语言通用）
 document.getElementById("marqueeTrack").innerHTML =
   [...DATA.marquee, ...DATA.marquee]
     .map((t) => `<span class="marquee-item">${t}<b>✦</b></span>`)
     .join("");
 
-// 技能
-document.getElementById("skillsGrid").innerHTML = DATA.skills
-  .map(
-    (s) => `
+function renderSkills() {
+  document.getElementById("skillsGrid").innerHTML = DATA.skills
+    .map(
+      (s) => `
     <div class="skill-cell">
       <span class="skill-no mono">${s.no}</span>
-      <div class="skill-title">${s.title}</div>
-      <p class="skill-desc">${s.desc}</p>
+      <div class="skill-title">${L(s.title, s.titleEn)}</div>
+      <p class="skill-desc">${L(s.desc, s.descEn)}</p>
       <div class="skill-tags">${s.tags.map((t) => `<span class="skill-tag">${t}</span>`).join("")}</div>
     </div>`
-  )
-  .join("");
+    )
+    .join("");
+}
 
-// 项目
-document.getElementById("projectsList").innerHTML = DATA.projects
-  .map(
-    (p) => `
+function renderProjects() {
+  document.getElementById("projectsList").innerHTML = DATA.projects
+    .map(
+      (p) => `
     <article class="project-row reveal">
       <div class="project-no">${p.no} /</div>
       <div class="project-main">
-        <h3>${p.title}${p.badge ? `<span class="project-badge">${p.badge}</span>` : ""}</h3>
-        <p class="project-desc">${p.desc}</p>
-        <ul class="project-highlights">${(p.highlights || []).map((h) => `<li>${h}</li>`).join("")}</ul>
+        <h3>${L(p.title, p.titleEn)}${p.badge ? `<span class="project-badge">${L(p.badge, p.badgeEn)}</span>` : ""}</h3>
+        <p class="project-desc">${L(p.desc, p.descEn)}</p>
+        <ul class="project-highlights">${(p.highlights || []).map((h, i) => `<li>${L(h, (p.highlightsEn || [])[i])}</li>`).join("")}</ul>
         <div class="project-tags">${p.tags.map((t) => `<span class="project-tag">${t}</span>`).join("")}</div>
       </div>
       <div class="project-side">
         ${(p.links || [])
           .filter((l) => l.href)
-          .map((l) => `<a class="project-link" href="${l.href}" target="_blank" rel="noopener">${l.label} →</a>`)
+          .map((l) => `<a class="project-link" href="${l.href}" target="_blank" rel="noopener">${L(l.label.zh, l.label.en)} →</a>`)
           .join("")}
-        ${!(p.links || []).some((l) => l.href) ? `<span class="project-link">COMING SOON</span>` : ""}
+        ${!(p.links || []).some((l) => l.href) ? `<span class="project-link">${L("COMING SOON", "COMING SOON")}</span>` : ""}
       </div>
     </article>`
-  )
-  .join("");
+    )
+    .join("");
+}
 
-// 数据带
-document.getElementById("statsGrid").innerHTML = DATA.stats
-  .map(
-    (s) => `
+function renderStats() {
+  document.getElementById("statsGrid").innerHTML = DATA.stats
+    .map(
+      (s) => `
     <div class="stat-cell reveal">
-      <div class="stat-num"><span class="counter" data-target="${s.num}">0</span><small>${s.suffix}</small></div>
-      <span class="stat-label">${s.label}</span>
+      <div class="stat-num"><span class="counter" data-target="${s.num}">0</span><small>${L(s.suffix, s.suffixEn ?? s.suffix)}</small></div>
+      <span class="stat-label">${L(s.label, s.labelEn)}</span>
     </div>`
-  )
-  .join("");
+    )
+    .join("");
+}
 
-// 联系卡片
-document.getElementById("contactGrid").innerHTML = DATA.contacts
-  .map((c, i) => {
-    const inner = `
+function renderContacts() {
+  document.getElementById("contactGrid").innerHTML = DATA.contacts
+    .map((c) => {
+      const inner = `
       <span class="cc-icon">${c.icon}</span>
-      <span class="cc-label">${c.label}</span>
+      <span class="cc-label">${L(c.label, c.labelEn)}</span>
       <span class="cc-value">${c.value}</span>
       ${c.copyable ? `<button class="copy-btn" data-copy="${c.value}" aria-label="复制">⧉</button>` : ""}`;
-    return c.href
-      ? `<a class="contact-card" href="${c.href}" target="_blank" rel="noopener">${inner}</a>`
-      : `<div class="contact-card">${inner}</div>`;
-  })
-  .join("");
+      return c.href
+        ? `<a class="contact-card" href="${c.href}" target="_blank" rel="noopener">${inner}</a>`
+        : `<div class="contact-card">${inner}</div>`;
+    })
+    .join("");
+}
 
-document.getElementById("year").textContent = new Date().getFullYear();
+function renderChips() {
+  const chips = currentLang() === "en" ? DATA.chatChipsEn : DATA.chatChips;
+  document.getElementById("chatChips").innerHTML = chips
+    .map((c, i) => `<button class="chat-chip" data-i="${i}">${c}</button>`)
+    .join("");
+}
+
+// 所有动态列表的统一入口：初始化 + 语言切换时调用
+window.renderDynamic = function () {
+  renderSkills();
+  renderProjects();
+  renderStats();
+  renderContacts();
+  renderChips();
+  document.getElementById("year").textContent = new Date().getFullYear();
+  // 重新渲染出的 .reveal 元素交给观察器（若已就绪）
+  if (window.__revealObs) {
+    document.querySelectorAll(".reveal:not(.visible)").forEach((el) => window.__revealObs.observe(el));
+  }
+};
+
+renderDynamic();
 
 /* ============ 9. 滚动入场 + 数字滚动 ============ */
 function countUp(el) {
@@ -275,6 +303,7 @@ const revealObs = new IntersectionObserver(
   },
   { threshold: 0.12 }
 );
+window.__revealObs = revealObs; // 供语言切换后的重渲染复用
 document.querySelectorAll(".reveal").forEach((el) => revealObs.observe(el));
 
 // 兜底：个别环境下 IntersectionObserver 派发不及时，
@@ -345,12 +374,12 @@ document.getElementById("chatFab").addEventListener("click", () => {
 });
 document.getElementById("chatClose").addEventListener("click", () => chatPanel.classList.remove("open"));
 
-document.getElementById("chatChips").innerHTML = DATA.chatChips
-  .map((c, i) => `<button class="chat-chip" data-i="${i}">${c}</button>`)
-  .join("");
+// 快捷提问按钮的内容由 renderChips() 渲染（随语言切换）
 document.getElementById("chatChips").addEventListener("click", (e) => {
   const chip = e.target.closest(".chat-chip");
-  if (chip) sendChat(DATA.chatChips[+chip.dataset.i]);
+  if (!chip) return;
+  const chips = currentLang() === "en" ? DATA.chatChipsEn : DATA.chatChips;
+  sendChat(chips[+chip.dataset.i]);
 });
 
 document.getElementById("chatForm").addEventListener("submit", (e) => {
@@ -370,11 +399,14 @@ function addMsg(text, who) {
 }
 
 function getBotReply(q) {
+  const en = currentLang() === "en";
   const lower = q.toLowerCase();
   for (const item of DATA.chatFAQ) {
-    if (item.keys.some((k) => lower.includes(k.toLowerCase()))) return item.answer;
+    const hit = item.keys.some((k) => lower.includes(k.toLowerCase())) ||
+      (en && (item.keysEn || []).some((k) => lower.includes(k.toLowerCase())));
+    if (hit) return en ? (item.answerEn ?? item.answer) : item.answer;
   }
-  return DATA.chatFallback;
+  return en ? (DATA.chatFallbackEn ?? DATA.chatFallback) : DATA.chatFallback;
 }
 
 async function sendChat(text) {
@@ -390,7 +422,13 @@ async function sendChat(text) {
 }
 
 // AI 开场白
-setTimeout(() => addMsg("你好，我是朱洋意的 AI 助手。\n可以问我关于他的技能、项目或实习意向，也可以点下面的快捷问题 👇", "bot"), 1600);
+setTimeout(() => addMsg(
+  L(
+    "你好，我是朱洋意的 AI 助手。\n可以问我关于他的技能、项目或实习意向，也可以点下面的快捷问题 👇",
+    "Hi, I'm Zhu's AI assistant.\nAsk about his skills, projects, or internship search — or tap a quick question below 👇"
+  ),
+  "bot"
+), 1600);
 
 /* 升级为真·大模型的示意代码（需要自建后端转发，避免泄露 Key）：
 async function callRealLLM(question) {
@@ -532,3 +570,142 @@ const finePointer =
     document.title = document.hidden ? awayTitle : origTitle;
   });
 })();
+
+/* --- 13g. 背景音乐：Web Audio 生成式环境乐（零音频文件、免版权） ---
+   两层声音：缓慢起伏的 C 调持续音垫 + 五声音阶随机拨弦（带回声），
+   音量压得很低，像咖啡馆角落的背景乐。按浏览器自动播放策略，
+   只在用户点击后出声；偏好记忆到 localStorage。 */
+const music = (() => {
+  const btn = document.getElementById("musicBtn");
+  let ctx = null, master = null, playing = false, pluckTimer = null;
+
+  // C 大调五声音阶：C4 D4 E4 G4 A4 C5 D5 E5
+  const SCALE = [261.63, 293.66, 329.63, 392.0, 440.0, 523.25, 587.33, 659.25];
+
+  function ensureContext() {
+    if (ctx) return true;
+    try {
+      ctx = new (window.AudioContext || window.webkitAudioContext)();
+    } catch {
+      btn.disabled = true;
+      btn.title = "当前浏览器不支持音频";
+      return false;
+    }
+    master = ctx.createGain();
+    master.gain.value = 0;
+
+    // 低通滤波（去掉刺耳高频）+ 反馈延迟（回声空间感）
+    const filter = ctx.createBiquadFilter();
+    filter.type = "lowpass";
+    filter.frequency.value = 1300;
+    const delay = ctx.createDelay(1.5);
+    delay.delayTime.value = 0.42;
+    const feedback = ctx.createGain();
+    feedback.gain.value = 0.34;
+    const wet = ctx.createGain();
+    wet.gain.value = 0.35;
+    delay.connect(feedback);
+    feedback.connect(delay);
+    master.connect(filter);
+    filter.connect(ctx.destination);
+    filter.connect(delay);
+    delay.connect(wet);
+    wet.connect(ctx.destination);
+    master._output = filter;
+
+    startPad();
+    return true;
+  }
+
+  // 持续音垫：三个低音振荡器 + 慢速 LFO 呼吸
+  function startPad() {
+    [130.81, 196.0, 261.63].forEach((freq, i) => {
+      const osc = ctx.createOscillator();
+      osc.type = i === 2 ? "sine" : "triangle";
+      osc.frequency.value = freq;
+      osc.detune.value = (i - 1) * 5;
+      const gain = ctx.createGain();
+      gain.gain.value = i === 2 ? 0.045 : 0.07;
+      const lfo = ctx.createOscillator();
+      lfo.frequency.value = 0.07 + i * 0.03;
+      const lfoGain = ctx.createGain();
+      lfoGain.gain.value = 0.02;
+      lfo.connect(lfoGain);
+      lfoGain.connect(gain.gain);
+      osc.connect(gain);
+      gain.connect(master);
+      osc.start();
+      lfo.start();
+    });
+  }
+
+  // 随机拨弦：三角波 + 指数衰减，节奏松弛
+  function pluck() {
+    if (!playing) return;
+    const now = ctx.currentTime;
+    const osc = ctx.createOscillator();
+    osc.type = "triangle";
+    const base = SCALE[(Math.random() * SCALE.length) | 0];
+    osc.frequency.value = Math.random() < 0.22 ? base * 2 : base;
+    const gain = ctx.createGain();
+    gain.gain.setValueAtTime(0, now);
+    gain.gain.linearRampToValueAtTime(0.11, now + 0.02);
+    gain.gain.exponentialRampToValueAtTime(0.0001, now + 1.7);
+    osc.connect(gain);
+    gain.connect(master);
+    osc.start(now);
+    osc.stop(now + 1.8);
+    pluckTimer = setTimeout(pluck, 900 + Math.random() * 2200);
+  }
+
+  function setBtn(on) {
+    btn.classList.toggle("playing", on);
+    btn.setAttribute("aria-pressed", String(on));
+  }
+
+  function on() {
+    if (!ensureContext()) return;
+    ctx.resume();
+    playing = true;
+    master.gain.cancelScheduledValues(ctx.currentTime);
+    master.gain.linearRampToValueAtTime(0.6, ctx.currentTime + 1.4);
+    clearTimeout(pluckTimer);
+    pluck();
+    setBtn(true);
+    localStorage.setItem("zyy-music", "1");
+  }
+
+  function off() {
+    playing = false;
+    if (ctx) {
+      master.gain.cancelScheduledValues(ctx.currentTime);
+      master.gain.linearRampToValueAtTime(0, ctx.currentTime + 0.6);
+    }
+    clearTimeout(pluckTimer);
+    setBtn(false);
+    localStorage.setItem("zyy-music", "0");
+  }
+
+  btn.addEventListener("click", () => (playing ? off() : on()));
+
+  // 上次开着音乐 → 浏览器策略要求等一次用户手势，任意点击页面即恢复
+  if (localStorage.getItem("zyy-music") === "1") {
+    const resumeOnce = () => {
+      on();
+      removeEventListener("pointerdown", resumeOnce);
+    };
+    addEventListener("pointerdown", resumeOnce, { once: true });
+  }
+
+  return { get playing() { return playing; } };
+})();
+
+/* --- 13h. 键盘导航：0-5 直达分区（输入框聚焦时忽略） ---
+   0 顶部 · 1 关于 · 2 技能 · 3 项目 · 4 数据 · 5 联系 */
+addEventListener("keydown", (e) => {
+  if (e.metaKey || e.ctrlKey || e.altKey) return;
+  if (["INPUT", "TEXTAREA", "SELECT"].includes(e.target.tagName)) return;
+  const map = { "0": "top", "1": "about", "2": "skills", "3": "projects", "4": "stats", "5": "contact" };
+  const id = map[e.key];
+  if (id) document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+});

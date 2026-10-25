@@ -619,3 +619,74 @@ body::after {
   .cursor-dot, .cursor-ring, body::after { display: none !important; }
   .hero-char { opacity: 1; transform: none; animation: none; }
 }
+
+/* ============================================================
+   音乐 / 语言 / 更多交互
+   ============================================================ */
+
+/* --- 音乐按钮：♪ 图标 ⇄ 三根跳动的均衡器柱 --- */
+.music-btn {
+  width: 38px; height: 38px; border-radius: 50%; cursor: pointer;
+  background: transparent; border: 1px solid var(--line); color: var(--ink);
+  display: grid; place-items: center; font-size: 1rem;
+  transition: all 0.25s;
+}
+.music-btn:hover { border-color: var(--amber); color: var(--amber); }
+.music-btn .eq { display: none; align-items: flex-end; gap: 2.5px; height: 14px; }
+.music-btn .eq i {
+  width: 3px; height: 100%; background: var(--amber); border-radius: 2px;
+  transform: scaleY(0.3); transform-origin: bottom;
+  animation: eq 1s ease-in-out infinite;
+}
+.music-btn .eq i:nth-child(2) { animation-delay: 0.18s; }
+.music-btn .eq i:nth-child(3) { animation-delay: 0.36s; }
+.music-btn.playing .eq { display: flex; }
+.music-btn.playing .music-icon { display: none; }
+.music-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+@keyframes eq {
+  0%, 100% { transform: scaleY(0.3); }
+  50% { transform: scaleY(1); }
+}
+
+/* --- 语言切换按钮：等宽字 pill --- */
+.lang-btn {
+  height: 38px; padding: 0 13px; border-radius: 999px; cursor: pointer;
+  background: transparent; border: 1px solid var(--line); color: var(--ink-soft);
+  font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.1em;
+  transition: all 0.25s;
+}
+.lang-btn:hover { border-color: var(--amber); color: var(--amber); }
+
+/* --- 项目条目：hover 一道流光扫过 --- */
+.project-row { overflow: hidden; }
+.project-row::after {
+  content: ""; position: absolute; top: 0; left: -45%; width: 26%; height: 100%;
+  background: linear-gradient(105deg, transparent, rgba(255, 255, 255, 0.5), transparent);
+  transform: skewX(-18deg); opacity: 0; pointer-events: none;
+}
+.project-row:hover::after { animation: sheen 0.9s var(--ease); }
+@keyframes sheen {
+  0% { left: -45%; opacity: 0.9; }
+  100% { left: 125%; opacity: 0; }
+}
+
+/* --- 英文版微调：长标签字距收紧 --- */
+html[lang="en"] .hero-eyebrow { letter-spacing: 0.12em; }
+html[lang="en"] .sec-label { letter-spacing: 0.22em; }
+
+/* --- 打印样式：简历直接 Ctrl+P 也能看 --- */
+@media print {
+  .nav, .chat-fab, .chat-panel, .toast, .progress-bar, .scroll-hint,
+  .marquee, .cursor-dot, .cursor-ring, body::after, .preloader { display: none !important; }
+  .reveal, .reveal-up { opacity: 1 !important; transform: none !important; }
+  .hero { min-height: auto; padding: 40px 0; }
+  .section { padding: 30px 0; }
+  .section-ink { background: #fff !important; color: #111 !important; }
+  .section-ink .skill-title, .section-ink .stat-num, .footer { color: #111 !important; }
+  a[href^="http"]::after { content: " (" attr(href) ")"; font-size: 0.8em; color: #666; }
+}
+
+/* 移动端：三个小按钮收窄间距 */
+@media (max-width: 760px) {
+  .nav-right { gap: 10px; }
+}
