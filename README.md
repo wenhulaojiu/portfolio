@@ -1,6 +1,36 @@
 # 朱洋意 · 个人作品集
 
-编辑部 / 研究报告风格的个人作品集：米白纸感与深炭黑分节交替、衬线大标题、等宽小标签、琥珀橙点缀、星座连线 Canvas、滚动进度条、AI 助手。零依赖、零构建，纯 HTML / CSS / JS 手写。
+> 🌐 线上地址：https://wenhulaojiu.github.io/portfolio/
+> 📦 仓库：https://github.com/wenhulaojiu/portfolio
+> 技术栈：零依赖、零构建，纯 HTML / CSS / JS 手写，编辑风格设计
+
+## 以后怎么改（重要！换电脑 / 换 AI 对话框都看这里）
+
+**所有内容（技能/项目/联系方式/AI 问答库）都在 `js/data.js` 一个文件里**，个别文案在 `index.html`。
+
+### 方式一：自己动手改
+```bash
+git clone https://github.com/wenhulaojiu/portfolio.git
+# 改 js/data.js → 保存
+cd portfolio
+git add . && git commit -m "更新内容" && git push
+# 等约 1 分钟，线上自动生效
+```
+
+### 方式二：让 AI（ZCode / Claude / Cursor 等）帮你改
+新开一个对话，把仓库克隆下来（或直接打开本文件夹），然后把下面这段话发给 AI：
+
+```
+这是我的个人作品集网站仓库（纯 HTML/CSS/JS，零依赖）。
+- 所有内容数据都在 js/data.js，改它就行
+- 配色在 css/style.css 顶部的 :root 变量
+- 改完后帮我 git commit + push 到 GitHub，线上是 GitHub Pages 自动部署的
+我要改的内容是：______（这里写你想改什么）
+```
+
+### 本机的本地副本
+`C:\Users\Lenovo\.zcode\workspace\` 下的会话文件夹里有一份（含 .git），
+但**长期以 GitHub 仓库为准**——换新会话时直接重新 clone 最干净。
 
 ## 本地预览
 
