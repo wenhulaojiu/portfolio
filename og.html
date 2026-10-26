@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<style>
+  :root {
+    --paper: #f5f1e8;
+    --ink: #171410;
+    --ink-mute: #8a8175;
+    --amber: #c2410c;
+    --serif: "Songti SC", "STSong", "SimSun", Georgia, serif;
+    --sans: "PingFang SC", "Microsoft YaHei", sans-serif;
+    --mono: Consolas, "Courier New", monospace;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 1200px; height: 630px; overflow: hidden; }
+  body {
+    position: relative;
+    background: var(--paper);
+    background-image: radial-gradient(rgba(23,20,16,0.10) 1px, transparent 1px);
+    background-size: 30px 30px;
+    color: var(--ink);
+    font-family: var(--sans);
+    padding: 56px 64px;
+    display: flex; flex-direction: column; justify-content: space-between;
+  }
+  svg.stars { position: absolute; top: 0; right: 0; opacity: 0.35; }
+  .top { display: flex; justify-content: space-between; align-items: center; position: relative; z-index: 2; }
+  .eyebrow { font-family: var(--mono); font-size: 17px; letter-spacing: 0.22em; color: var(--ink-mute); }
+  .status { font-family: var(--mono); font-size: 17px; letter-spacing: 0.18em; color: var(--amber); }
+  .status::before { content: "● "; font-size: 13px; }
+  .middle { position: relative; z-index: 2; }
+  .name {
+    font-family: var(--serif); font-weight: 900;
+    font-size: 148px; line-height: 1.04; letter-spacing: 0.05em;
+  }
+  .latin {
+    font-family: Georgia, "Times New Roman", serif; font-style: italic;
+    font-size: 54px; color: var(--ink-mute); letter-spacing: 0.08em; margin-top: 6px;
+  }
+  .latin b { color: var(--amber); font-style: normal; font-weight: 400; }
+  .tagline { margin-top: 26px; font-size: 26px; color: var(--ink-mute); letter-spacing: 0.04em; }
+  .tagline strong { color: var(--ink); font-weight: 600; }
+  .bottom { position: relative; z-index: 2; }
+  .rule { height: 3px; width: 96px; background: var(--amber); margin-bottom: 24px; }
+  .url-line { text-align: right; font-family: var(--mono); font-size: 19px; color: var(--ink-mute); letter-spacing: 0.06em; margin-bottom: 18px; }
+  .chips { display: flex; gap: 14px; }
+  .chip {
+    font-family: var(--mono); font-size: 19px; letter-spacing: 0.05em;
+    padding: 10px 22px; border: 1.5px solid rgba(23,20,16,0.28); border-radius: 999px;
+    color: var(--ink);
+  }
+</style>
+</head>
+<body>
+  <svg class="stars" width="640" height="500" viewBox="0 0 640 500" fill="none">
+    <g stroke="#171410" stroke-opacity="0.14" stroke-width="1">
+      <path d="M60 420 L180 300 L320 360 L300 180 L180 300"/>
+      <path d="M320 360 L470 260 L440 90 L300 180"/>
+      <path d="M470 260 L600 320 L580 150 L440 90"/>
+      <path d="M600 320 L560 440 L470 260"/>
+      <path d="M180 300 L60 180 L120 60 L300 180"/>
+      <path d="M440 90 L320 40 L120 60"/>
+    </g>
+    <g fill="#171410" fill-opacity="0.35">
+      <circle cx="60" cy="420" r="4"/><circle cx="180" cy="300" r="5"/><circle cx="320" cy="360" r="4"/>
+      <circle cx="300" cy="180" r="6"/><circle cx="470" cy="260" r="5"/><circle cx="440" cy="90" r="4"/>
+      <circle cx="600" cy="320" r="4"/><circle cx="580" cy="150" r="5"/><circle cx="560" cy="440" r="4"/>
+      <circle cx="60" cy="180" r="4"/><circle cx="120" cy="60" r="5"/><circle cx="320" cy="40" r="4"/>
+    </g>
+    <g fill="#c2410c" fill-opacity="0.8">
+      <circle cx="300" cy="180" r="6"/><circle cx="470" cy="260" r="4"/><circle cx="120" cy="60" r="4"/>
+    </g>
+  </svg>
+
+  <div class="top">
+    <span class="eyebrow">PORTFOLIO — FUJIAN NORMAL UNIVERSITY · CS MAJOR</span>
+    <span class="status">OPEN TO INTERNSHIP</span>
+  </div>
+
+  <div class="middle">
+    <div class="name">朱洋意</div>
+    <div class="latin">Zhu Yangyi<b>.</b></div>
+    <div class="tagline">四个零依赖手写项目 · <strong>前端 / 全栈 / AI 应用</strong> · 正在寻找 2027 开发实习</div>
+  </div>
+
+  <div class="bottom">
+    <div class="rule"></div>
+    <div class="url-line">wenhulaojiu.github.io/portfolio</div>
+    <div class="chips">
+      <span class="chip">AI 策略游戏 ×2</span>
+      <span class="chip">Chrome 扩展 ×1</span>
+      <span class="chip">0 第三方依赖</span>
+      <span class="chip">WEB AUDIO · I18N</span>
+    </div>
+  </div>
+</body>
+</html>

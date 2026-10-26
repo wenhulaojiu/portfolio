@@ -180,14 +180,14 @@ const DATA = {
     { num: 2025, suffix: " 级", suffixEn: "", label: "福建师范大学", labelEn: "Fujian Normal University" },
   ],
 
-  /* ---------- 联系卡片（copyable = 显示复制按钮） ---------- */
+  /* ---------- 联系卡片（copyable = 显示复制按钮）
+     注意：出于防骚扰考虑，本站不公开手机号；招聘方请通过邮箱 / GitHub 联系 ---------- */
   contacts: [
     { icon: "✉", label: "QQ 邮箱（首选）", labelEn: "QQ Mail (primary)", value: "313242038@qq.com", href: "mailto:313242038@qq.com", copyable: true },
     { icon: "✉", label: "GMAIL", labelEn: "GMAIL", value: "webhulaojiu@gmail.com", href: "mailto:webhulaojiu@gmail.com", copyable: true },
     { icon: "🐙", label: "GITHUB", labelEn: "GITHUB", value: "github.com/wenhulaojiu", href: "https://github.com/wenhulaojiu", copyable: true },
     { icon: "💬", label: "微信", labelEn: "WeChat", value: "haaaaaapyu", href: "", copyable: true },
     { icon: "🐧", label: "QQ", labelEn: "QQ", value: "313242038", href: "", copyable: true },
-    { icon: "☎", label: "电话", labelEn: "Phone", value: "15880259222", href: "tel:15880259222", copyable: true },
   ],
 
   /* ---------- AI 助手知识库（双语：keys/answer 中文，keysEn/answerEn 英文） ---------- */

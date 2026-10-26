@@ -26,7 +26,7 @@
   --dark-mute: #9a917f;
   --dark-line: rgba(240, 235, 224, 0.16);
 
-  --serif: "Noto Serif SC", "Playfair Display", "Songti SC", "SimSun", Georgia, serif;
+  --serif: "Playfair Display", "Songti SC", "STSong", "SimSun", Georgia, serif;
   --sans: "PingFang SC", "Microsoft YaHei", -apple-system, "Segoe UI", sans-serif;
   --mono: "JetBrains Mono", Consolas, "Courier New", monospace;
 

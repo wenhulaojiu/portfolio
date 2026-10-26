@@ -11,14 +11,21 @@
   <meta property="og:title" content="朱洋意 · 个人作品集 | Zhu Yangyi Portfolio" />
   <meta property="og:description" content="四个零依赖手写项目：AI 策略游戏 ×2、Chrome 扩展、本站。正在找 2027 开发实习。" />
   <meta property="og:url" content="https://wenhulaojiu.github.io/portfolio/" />
-  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://wenhulaojiu.github.io/portfolio/og.png" />
+  <meta property="og:image" content="https://wenhulaojiu.github.io/portfolio/og.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="朱洋意个人作品集 — 编辑风格站点，四个零依赖手写项目" />
   <meta name="theme-color" content="#f5f1e8" media="(prefers-color-scheme: light)" />
   <meta name="theme-color" content="#16130f" media="(prefers-color-scheme: dark)" />
   <link rel="canonical" href="https://wenhulaojiu.github.io/portfolio/" />
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='18' fill='%2316130F'/><text x='50' y='68' font-size='52' text-anchor='middle' fill='%23F5F1E8' font-family='serif' font-weight='bold'>朱</text></svg>" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,800;1,600&family=Noto+Serif+SC:wght@600;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+  <!-- 字体自托管（Playfair Display + JetBrains Mono，共 ~570KB，浏览器缓存一次）；
+       中文衬线走系统宋体（Songti SC / SimSun），无任何外部字体请求 -->
+  <link rel="preload" href="fonts/f2.woff" as="font" type="font/woff" crossorigin />
+  <link rel="preload" href="fonts/f4.woff" as="font" type="font/woff" crossorigin />
+  <link rel="stylesheet" href="fonts/fonts.css" />
   <link rel="stylesheet" href="css/style.css" />
   <noscript>
     <!-- JS 关闭时直接显示所有内容（否则入场动画会把内容藏住） -->
