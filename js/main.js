@@ -1,6 +1,6 @@
 /* ==========================================================
    交互逻辑：载入动画 / 进度条 / 星座 Canvas / 打字机 /
-   滚动渲染 / 计数 / 复制 / AI 助手 / 主题
+   滚动渲染 / 计数 / 复制 / 作品集问答 / 主题
    想搞懂某段代码，直接复制去问 AI —— 这是最好的学习方式
    ========================================================== */
 
@@ -361,7 +361,7 @@ document.getElementById("backTop").addEventListener("click", () =>
   window.scrollTo({ top: 0, behavior: "smooth" })
 );
 
-/* ============ 12. AI 助手（离线关键词版） ============
+/* ============ 12. 作品集问答（离线关键词版） ============
    升级为真·大模型：把 getBotReply 换成一次 fetch 调用即可，
    示例见文末注释。切记 API Key 放后端，不要写进前端。 */
 const chatPanel = document.getElementById("chatPanel");
@@ -424,8 +424,8 @@ async function sendChat(text) {
 // AI 开场白
 setTimeout(() => addMsg(
   L(
-    "你好，我是朱洋意的 AI 助手。\n可以问我关于他的技能、项目或实习意向，也可以点下面的快捷问题 👇",
-    "Hi, I'm Zhu's AI assistant.\nAsk about his skills, projects, or internship search — or tap a quick question below 👇"
+    "你好，我是朱洋意的 作品集问答。\n可以问我关于他的技能、项目或实习意向，也可以点下面的快捷问题 👇",
+    "Hi, I'm Zhu's portfolio FAQ.\nAsk about his skills, projects, or internship search — or tap a quick question below 👇"
   ),
   "bot"
 ), 1600);
