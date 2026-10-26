@@ -17,7 +17,7 @@ themeToggle.addEventListener("click", () => {
 
 /* ============ 2. 开场动画退场 ============ */
 window.addEventListener("load", () => {
-  setTimeout(() => document.getElementById("preloader").classList.add("done"), 1300);
+  setTimeout(() => document.getElementById("preloader").classList.add("done"), 180);
 });
 // 兜底：load 事件如果被资源阻塞也不卡住页面
 setTimeout(() => document.getElementById("preloader")?.classList.add("done"), 3200);
@@ -197,46 +197,28 @@ function renderSkills() {
       <span class="skill-no mono">${s.no}</span>
       <div class="skill-title">${L(s.title, s.titleEn)}</div>
       <p class="skill-desc">${L(s.desc, s.descEn)}</p>
-      <div class="skill-tags">${s.tags.map((t) => `<span class="skill-tag">${t}</span>`).join("")}</div>
+      <div class="skill-tags">${(currentLang() === "en" ? (s.tagsEn || s.tags) : s.tags).map((t) => `<span class="skill-tag">${t}</span>`).join("")}</div>
     </div>`
     )
     .join("");
 }
 
 function renderProjects() {
-  document.getElementById("projectsList").innerHTML = DATA.projects
-    .map(
-      (p) => `
+  const link = l => '<a class="project-link" href="'+l.href+'" target="_blank" rel="noopener">'+L(l.label.zh,l.label.en)+'</a>';
+  document.getElementById('projectsList').innerHTML = DATA.projects.filter(p=>p.featured).map(p=>`
     <article class="project-row reveal">
       <div class="project-no">${p.no} /</div>
       <div class="project-main">
-        <h3>${L(p.title, p.titleEn)}${p.badge ? `<span class="project-badge">${L(p.badge, p.badgeEn)}</span>` : ""}</h3>
-        <p class="project-desc">${L(p.desc, p.descEn)}</p>
-        <ul class="project-highlights">${(p.highlights || []).map((h, i) => `<li>${L(h, (p.highlightsEn || [])[i])}</li>`).join("")}</ul>
-        <div class="project-tags">${p.tags.map((t) => `<span class="project-tag">${t}</span>`).join("")}</div>
-      </div>
-      <div class="project-side">
-        ${(p.links || [])
-          .filter((l) => l.href)
-          .map((l) => `<a class="project-link" href="${l.href}" target="_blank" rel="noopener">${L(l.label.zh, l.label.en)} →</a>`)
-          .join("")}
-        ${!(p.links || []).some((l) => l.href) ? `<span class="project-link">${L("COMING SOON", "COMING SOON")}</span>` : ""}
-      </div>
-    </article>`
-    )
-    .join("");
-}
-
-function renderStats() {
-  document.getElementById("statsGrid").innerHTML = DATA.stats
-    .map(
-      (s) => `
-    <div class="stat-cell reveal">
-      <div class="stat-num"><span class="counter" data-target="${s.num}">0</span><small>${L(s.suffix, s.suffixEn ?? s.suffix)}</small></div>
-      <span class="stat-label">${L(s.label, s.labelEn)}</span>
-    </div>`
-    )
-    .join("");
+        <h3>${L(p.title,p.titleEn)}<span class="project-badge">${L(p.badge,p.badgeEn)}</span></h3>
+        <p class="project-desc">${L(p.desc,p.descEn)}</p>
+        ${p.preview ? '<figure class="project-preview"><img src="'+p.preview+'" alt="'+L(p.previewAlt,p.previewAltEn)+'" loading="lazy" width="1200" height="675" /><figcaption>'+L('项目界面','Project interface')+'</figcaption></figure>' : ''}
+        <ul class="project-highlights">${p.highlights.map((h,n)=>'<li>'+L(h,p.highlightsEn[n])+'</li>').join('')}</ul>
+        <p class="project-note">${L(p.note,p.noteEn)}</p>
+        <div class="project-tags"><span class="project-tech-label">${L('项目使用','Built with')}</span>${(currentLang()==='en' ? (p.tagsEn||p.tags) : p.tags).map(t=>'<span class="project-tag">'+t+'</span>').join('')}</div>
+      </div><div class="project-side">${p.links.filter(l=>l.href).map(link).join('')}</div>
+    </article>`).join('');
+  document.getElementById('moreProjectsList').innerHTML=DATA.projects.filter(p=>!p.featured).map(p=>`
+    <article class="project-compact"><h3>${L(p.title,p.titleEn)}</h3><p>${L(p.desc,p.descEn)}</p><div>${p.links.filter(l=>l.href).map(link).join('')}</div></article>`).join('');
 }
 
 function renderContacts() {
@@ -265,7 +247,6 @@ function renderChips() {
 window.renderDynamic = function () {
   renderSkills();
   renderProjects();
-  renderStats();
   renderContacts();
   renderChips();
   document.getElementById("year").textContent = new Date().getFullYear();
@@ -424,7 +405,7 @@ async function sendChat(text) {
 // AI 开场白
 setTimeout(() => addMsg(
   L(
-    "你好，我是朱洋意的 作品集问答。\n可以问我关于他的技能、项目或实习意向，也可以点下面的快捷问题 👇",
+    "你好，这里是朱洋意的作品集常见问题。\n可以问我关于他的技能、项目或实习意向，也可以点下面的快捷问题 👇",
     "Hi, I'm Zhu's portfolio FAQ.\nAsk about his skills, projects, or internship search — or tap a quick question below 👇"
   ),
   "bot"
@@ -513,36 +494,6 @@ const finePointer =
   });
 })();
 
-/* --- 13d. 文字解码特效：悬停等宽标签时字符乱序滚入 --- */
-(function decodeLabels() {
-  if (!finePointer) return;
-  const CHARS = "!<>-_/[]{}—=+*^?#";
-  function decode(el) {
-    if (el.dataset.decoding) return;
-    const orig = el.dataset.orig || (el.dataset.orig = el.textContent);
-    el.dataset.decoding = "1";
-    let frame = 0;
-    const total = Math.max(12, orig.length * 2);
-    const timer = setInterval(() => {
-      frame++;
-      const reveal = Math.floor((frame / total) * orig.length);
-      el.textContent = [...orig]
-        .map((ch, i) =>
-          i < reveal || ch === " " ? ch : CHARS[(Math.random() * CHARS.length) | 0]
-        )
-        .join("");
-      if (reveal >= orig.length) {
-        clearInterval(timer);
-        el.textContent = orig;
-        delete el.dataset.decoding;
-      }
-    }, 28);
-  }
-  document.querySelectorAll(".sec-label, .nav-links a, .cc-label").forEach((el) =>
-    el.addEventListener("mouseenter", () => decode(el))
-  );
-})();
-
 /* --- 13e. Hero 滚动视差：内容上移淡出，星座层 slower --- */
 (function heroParallax() {
   const inner = document.querySelector(".hero-inner");
@@ -560,15 +511,6 @@ const finePointer =
   addEventListener("scroll", () => {
     if (!ticking) { ticking = true; requestAnimationFrame(update); }
   }, { passive: true });
-})();
-
-/* --- 13f. 彩蛋：切走标签页时换标题 --- */
-(function titleEgg() {
-  const origTitle = document.title;
-  const awayTitle = "🌲 别走，星座还在闪";
-  document.addEventListener("visibilitychange", () => {
-    document.title = document.hidden ? awayTitle : origTitle;
-  });
 })();
 
 /* --- 13g. 背景音乐：Web Audio 生成式环境乐（零音频文件、免版权） ---
@@ -705,7 +647,7 @@ const music = (() => {
 addEventListener("keydown", (e) => {
   if (e.metaKey || e.ctrlKey || e.altKey) return;
   if (["INPUT", "TEXTAREA", "SELECT"].includes(e.target.tagName)) return;
-  const map = { "0": "top", "1": "about", "2": "skills", "3": "projects", "4": "stats", "5": "contact" };
+  const map = { "0": "top", "1": "about", "2": "skills", "3": "projects", "4": "contact" };
   const id = map[e.key];
   if (id) document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
 });

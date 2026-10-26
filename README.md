@@ -1,86 +1,23 @@
 # 朱洋意 · 个人作品集
 
-> 🌐 线上地址：https://wenhulaojiu.github.io/portfolio/
-> 📦 仓库：https://github.com/wenhulaojiu/portfolio
-> 技术栈：零依赖、零构建，纯 HTML / CSS / JS 手写，编辑风格设计
+福建师范大学计算机科学与技术专业本科生，2025 级。主要学习 C / C++，当前进度到指针；有 Java、Python、SQL 与 HTML 基础。寒假可到岗，城市暂无偏好，出勤与时长待沟通。
 
-## 以后怎么改（重要！换电脑 / 换 AI 对话框都看这里）
+[在线作品集](https://wenhulaojiu.github.io/portfolio/) · [一页简历](https://wenhulaojiu.github.io/portfolio/resume.pdf)
 
-**所有内容（技能/项目/联系方式/AI 问答库）都在 `js/data.js` 一个文件里**，个别文案在 `index.html`。
+## 项目说明
 
-### 方式一：自己动手改
-```bash
-git clone https://github.com/wenhulaojiu/portfolio.git
-# 改 js/data.js → 保存
-cd portfolio
-git add . && git commit -m "更新内容" && git push
-# 等约 1 分钟，线上自动生效
+个人项目的参与方式为通过提示词描述需求，由 AI 生成代码与实现。项目技术标签说明实现工具，不作为独立开发能力声明。
+
+重点展示毛线守恒 H5、慢游路线规划与刘看山网页助手；其余作品保留在“更多作品”。
+
+## 本地查看
+
+纯 HTML / CSS / JavaScript，无构建步骤。可用静态服务器运行：
+
+```sh
+python -m http.server 8765
 ```
 
-### 方式二：让 AI（ZCode / Claude / Cursor 等）帮你改
-新开一个对话，把仓库克隆下来（或直接打开本文件夹），然后把下面这段话发给 AI：
+内容在 `js/data.js`，双语文案在 `js/i18n.js`。修改默认中文时同步 `index.html`。
 
-```
-这是我的个人作品集网站仓库（纯 HTML/CSS/JS，零依赖）。
-- 所有内容数据都在 js/data.js，改它就行
-- 配色在 css/style.css 顶部的 :root 变量
-- 改完后帮我 git commit + push 到 GitHub，线上是 GitHub Pages 自动部署的
-我要改的内容是：______（这里写你想改什么）
-```
-
-### 本机的本地副本
-`C:\Users\Lenovo\.zcode\workspace\` 下的会话文件夹里有一份（含 .git），
-但**长期以 GitHub 仓库为准**——换新会话时直接重新 clone 最干净。
-
-## 本地预览
-
-直接双击 `index.html`，或：
-
-```bash
-python -m http.server 8080   # 访问 http://localhost:8080
-```
-
-## 改内容只动一个文件
-
-**90% 的修改都在 `js/data.js`**（技能、项目、统计、联系方式、AI 问答库）。
-个别文字（自我介绍段落、页面标题）在 `index.html` 里直接搜索替换。
-
-配色在 `css/style.css` 顶部的 `:root` 变量里（`--amber` 换主题色最明显）。
-
-## 已内置
-
-- **中英双语**：导航栏「EN / 中」一键切换，静态文案在 `js/i18n.js`，动态内容的英文字段（`*En` 后缀）在 `js/data.js`，偏好记忆
-- **背景音乐**：Web Audio 实时生成的环境乐（音垫 + 五声音阶拨弦，零音频文件免版权），导航栏 ♪ 按钮开关，偏好记忆
-- **键盘导航**：`0` 顶部 · `1` 关于 · `2` 技能 · `3` 项目 · `4` 数据 · `5` 联系
-- 开场名字动画 → Hero 星座连线背景（鼠标靠近：节点放大、连线跟随、轻推开星群）
-- **交互增强层**：自定义光标（琥珀点+跟随环）、磁吸按钮、名字逐字入场、
-  等宽标签悬停解码特效、Hero 滚动视差、全站胶片噪点、项目条目流光、失焦标题彩蛋
-  （触屏设备与「减少动画」偏好下自动关闭）
-- 深色/浅色主题切换（默认米白纸感，记忆偏好）
-- 技术栈跑马灯、打字机、数字滚动、滚动进度条、分区导航高亮
-- 联系卡片一键复制（剪贴板 + Toast 提示）
-- AI 助手：双语离线关键词版（无需 API Key），`js/main.js` 文末有接真·大模型的示例代码
-- 社交分享 OG 标签、风格化 404 页、打印样式（Ctrl+P 直接当简历雏形）
-
-## 部署
-
-### GitHub Pages
-```bash
-git init && git add . && git commit -m "feat: portfolio v2"
-git branch -M main
-git remote add origin https://github.com/wenhulaojiu/portfolio.git
-git push -u origin main
-# 仓库 Settings → Pages → Branch: main → Save
-```
-
-### Vercel
-```bash
-npm i -g vercel && vercel
-```
-
-上线后：把链接填进 `js/data.js` 第一个项目的 `links`，简历、GitHub 主页也都放上这个链接。
-
-## 注意
-
-- 页面上公开了电话 / 微信 / QQ——如果担心骚扰，删掉 `data.js` 里 `contacts` 中对应条目即可（建议至少保留邮箱和 GitHub）。
-- `webhulaojiu@gmail.com` 请自行确认拼写（GitHub 用户名是 wenhulaojiu，少一个 n 的是邮箱是你本意吗？）。
+`resume.pdf` 为中文一页简历；`og.html` / `og.png` 为分享卡片。毛线守恒与慢游预览均为项目在本地运行时的页面截图。

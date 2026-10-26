@@ -1,57 +1,59 @@
-/* Portfolio data: foundations and AI-assisted project practice. */
+/* Public portfolio content. */
 const DATA = {
   "typingRoles": [
     "计算机专业本科生",
-    "编程学习者",
-    "AI 辅助项目实践者"
+    "C / C++ 学习者"
   ],
   "typingRolesEn": [
     "CS Undergraduate",
-    "Programming Learner",
-    "AI-assisted Project Explorer"
+    "C / C++ Learner"
   ],
   "marquee": [
     "C",
     "C++",
     "Java",
-    "SQL",
     "Python",
-    "HTML 基础"
+    "SQL",
+    "HTML"
   ],
   "skills": [
     {
       "no": "A.",
-      "title": "编程基础",
-      "titleEn": "Programming Basics",
-      "desc": "能够编写基础代码，正在通过练习巩固。",
-      "descEn": "Able to write basic code; building confidence through practice.",
+      "title": "主要学习 · C / C++",
+      "titleEn": "Main focus · C / C++",
+      "desc": "能编写基础代码，当前学习进度到指针。",
+      "descEn": "Able to write basic code; currently learning pointers.",
       "tags": [
         "C",
         "C++",
+        "指针"
+      ],
+      "tagsEn": [
+        "C",
+        "C++",
+        "Pointers"
+      ]
+    },
+    {
+      "no": "B.",
+      "title": "其他编程基础",
+      "titleEn": "Other programming basics",
+      "desc": "能编写 Java、Python 基础代码。",
+      "descEn": "Basic coding experience with Java and Python.",
+      "tags": [
         "Java",
         "Python"
       ]
     },
     {
-      "no": "B.",
-      "title": "数据库与网页基础",
-      "titleEn": "Database & Web Basics",
-      "desc": "能够编写基础 SQL 和 HTML，继续学习实际应用。",
-      "descEn": "Basic SQL and HTML, with practical learning in progress.",
-      "tags": [
-        "SQL 基础",
-        "HTML 基础"
-      ]
-    },
-    {
       "no": "C.",
-      "title": "AI 辅助项目实践",
-      "titleEn": "AI-assisted Projects",
-      "desc": "以下项目借助 AI 完成，项目采用的技术不等同于本人已经掌握的技能。",
-      "descEn": "Projects built with AI assistance. Their technology stacks do not imply independent proficiency.",
+      "title": "数据库与网页基础",
+      "titleEn": "Database & web basics",
+      "desc": "能编写基础 SQL 与 HTML 页面代码。",
+      "descEn": "Able to write basic SQL and HTML.",
       "tags": [
-        "AI 辅助开发",
-        "项目学习"
+        "SQL",
+        "HTML"
       ]
     }
   ],
@@ -64,23 +66,20 @@ const DATA = {
       "badge": "H5 移植版",
       "badgeEn": "H5 PORT",
       "status": "done",
-      "desc": "AI 辅助完成的三猫协作解谜游戏 H5 移植实践。切换三只猫，通过移动、跳跃、抱放与交互配合解谜，包含 10 个正篇关卡与 1 个隐藏关。复用 Lua 玩法和美术绘制，通过 WebAssembly 与 Canvas 2D 在浏览器中运行。",
-      "descEn": "An AI-assisted H5 port of a three-cat cooperative puzzle game. Switch cats to move, jump, carry and interact across 10 main levels and one hidden level. Reuses Lua gameplay and drawing code through WebAssembly and Canvas 2D.",
+      "desc": "三猫协作解谜游戏：切换角色，利用跳跃、抱放和交互完成关卡。H5 移植版包含 10 个正篇关卡与 1 个隐藏关。",
+      "descEn": "A three-cat cooperative puzzle game: switch characters, jump, carry and interact to solve levels. The H5 port contains 10 main levels and one hidden level.",
       "highlights": [
-        "支持键盘操作与触屏按钮，包含切猫、抱放、交互与撤销",
-        "使用 Wasmoon 运行库将 Lua 玩法接入浏览器",
-        "当前音效尚未接入，完整手机与全关手动验收待补"
+        "键盘与触屏按钮操作，支持切猫和撤销",
+        "复用 Lua 玩法，通过 WebAssembly 与 Canvas 2D 在浏览器运行"
       ],
       "highlightsEn": [
-        "Keyboard and touch controls for switching cats, carrying, interacting and undoing",
-        "Uses the Wasmoon runtime to run Lua gameplay in the browser",
-        "Audio is not integrated; full mobile and manual all-level verification remain pending"
+        "Keyboard and touch controls, cat switching and undo",
+        "Runs Lua gameplay in the browser through WebAssembly and Canvas 2D"
       ],
       "tags": [
         "Lua",
         "WebAssembly",
-        "Canvas 2D",
-        "AI 辅助完成"
+        "Canvas 2D"
       ],
       "links": [
         {
@@ -90,32 +89,36 @@ const DATA = {
           },
           "href": "https://github.com/wenhulaojiu/maoxianshouheng"
         }
-      ]
+      ],
+      "note": "版本说明：音效尚未接入，完整手机与全关手动验收待补。",
+      "noteEn": "Version note: audio integration and full mobile/all-level manual verification remain pending.",
+      "preview": "assets/yarn-preview.png",
+      "previewAlt": "毛线守恒 H5 游戏界面",
+      "previewAltEn": "Yarn Conservation H5 game interface",
+      "featured": true
     },
     {
       "no": "02",
       "emoji": "◈",
       "title": "慢游 · 旅行路线规划",
       "titleEn": "Manyou · Travel Route Planning",
-      "badge": "AI 辅助实践",
-      "badgeEn": "AI-assisted",
+      "badge": "本地运行",
+      "badgeEn": "LOCAL APP",
       "status": "done",
-      "desc": "借助 AI 完成的国内交通路线规划项目。根据预算、赶路时间和中转停留条件比较路线，支持铁路查询与可选的航空接口。项目用于学习实践，航空能力需要另行配置服务账号。",
-      "descEn": "An AI-assisted domestic travel route planning project comparing budget, travel time and stopovers. Supports rail queries and optional flight integration requiring separate provider credentials.",
+      "desc": "围绕旅行预算与赶路时间，比较国内交通路线。支持考虑中转停留和住宿成本，帮助查看不同路线的取舍。",
+      "descEn": "Compares domestic travel routes by budget and travel time, including stopovers and accommodation costs.",
       "highlights": [
-        "综合比较票价、中转住宿与赶路时间成本",
         "支持路线筛选、排序、对比和取消查询",
-        "项目实现借助 AI 完成，相关技术仍在学习中"
+        "包含铁路查询与可选航空接口"
       ],
       "highlightsEn": [
-        "Compares fares, stopover accommodation and travel time costs",
-        "Route filtering, sorting, comparison and query cancellation",
-        "Built with AI assistance; implementation technologies are still being learned"
+        "Route filtering, sorting, comparison and cancellation",
+        "Rail queries with an optional flight integration"
       ],
       "tags": [
-        "项目技术：Node.js",
-        "路线规划",
-        "AI 辅助完成"
+        "Node.js",
+        "Web Worker",
+        "路线规划"
       ],
       "links": [
         {
@@ -125,10 +128,57 @@ const DATA = {
           },
           "href": "https://github.com/wenhulaojiu/manyou"
         }
-      ]
+      ],
+      "note": "使用说明：需要本地运行；航空查询需配置服务账号，未验证生产机票数据。",
+      "noteEn": "Runs locally. Flight queries require provider credentials; production flight data has not been verified.",
+      "tagsEn": [
+        "Node.js",
+        "Web Worker",
+        "Route planning"
+      ],
+      "preview": "assets/manyou-preview.png",
+      "previewAlt": "慢游项目首页",
+      "previewAltEn": "Manyou project home page",
+      "featured": true
     },
     {
       "no": "03",
+      "emoji": "◈",
+      "title": "刘看山网页助手",
+      "titleEn": "Liu Kanshan Web Assistant",
+      "badge": "v1.5.0",
+      "badgeEn": "v1.5.0",
+      "status": "done",
+      "desc": "Chrome / Edge 网页阅读助手：读取当前页面，在侧边栏围绕内容提问，支持选中文字提问与连续对话。",
+      "descEn": "A Chrome / Edge reading assistant for questions about the current page, selected-text queries and follow-up conversations in a side panel.",
+      "highlights": [
+        "侧边栏展示流式回答，支持停止生成与新建对话",
+        "用户配置模型服务，无自建后端与内置 API 密钥"
+      ],
+      "highlightsEn": [
+        "Streaming answers in a side panel, with stop and new-chat controls",
+        "User-configured model provider, no custom backend or bundled API key"
+      ],
+      "tags": [
+        "JavaScript",
+        "Manifest V3",
+        "Side Panel API"
+      ],
+      "links": [
+        {
+          "label": {
+            "zh": "GitHub ↗",
+            "en": "GitHub ↗"
+          },
+          "href": "https://github.com/wenhulaojiu/liukanshan-web-assistant"
+        }
+      ],
+      "note": "使用说明：需手动加载扩展并配置模型 API。",
+      "noteEn": "Requires manual extension installation and a model API configuration.",
+      "featured": true
+    },
+    {
+      "no": "04",
       "emoji": "◈",
       "title": "圈层谣言攻防战",
       "titleEn": "Circle Rumor Warfare",
@@ -169,44 +219,8 @@ const DATA = {
           },
           "href": "https://github.com/wenhulaojiu/circle-rumor-warfare"
         }
-      ]
-    },
-    {
-      "no": "04",
-      "emoji": "◈",
-      "title": "刘看山网页助手",
-      "titleEn": "Liu Kanshan Web Assistant",
-      "badge": "v1.5.0",
-      "badgeEn": "v1.5.0",
-      "status": "done",
-      "desc": "Chrome / Edge 浏览器扩展（Manifest V3）：一键读取当前网页内容，在侧边栏针对页面多轮追问，还支持划词右键提问和刘看山桌宠动画。用户自配 OpenAI 兼容 API，流式输出回答。",
-      "descEn": "A Chrome/Edge extension (Manifest V3) that reads the current page and answers your questions in a side panel via any OpenAI-compatible API — with streaming output, selection quick-asks, and a Liu Kanshan desktop pet.",
-      "highlights": [
-        "Side Panel API 侧边栏对话，基于页面内容连续追问",
-        "无后端、无遥测，不内置 API 密钥",
-        "知乎页面专项内容抽取优化"
       ],
-      "highlightsEn": [
-        "Side Panel API chat with multi-turn follow-ups on page content",
-        "No backend, no telemetry and no bundled API keys",
-        "Zhihu-specific content extraction"
-      ],
-      "tags": [
-        "Chrome Extension",
-        "Manifest V3",
-        "Side Panel API",
-        "SSE 流式",
-        "JavaScript"
-      ],
-      "links": [
-        {
-          "label": {
-            "zh": "GitHub ↗",
-            "en": "GitHub ↗"
-          },
-          "href": "https://github.com/wenhulaojiu/liukanshan-web-assistant"
-        }
-      ]
+      "featured": false
     },
     {
       "no": "05",
@@ -242,7 +256,8 @@ const DATA = {
           },
           "href": "https://github.com/wenhulaojiu/ai-werewolf"
         }
-      ]
+      ],
+      "featured": false
     },
     {
       "no": "06",
@@ -252,17 +267,13 @@ const DATA = {
       "badge": "本站",
       "badgeEn": "THIS SITE",
       "status": "done",
-      "desc": "借助 AI 完成并持续学习的个人作品集：编辑部风格排版、星座连线 Canvas、主题切换、双语、背景音乐、作品集问答。零框架零依赖，纯 HTML / CSS / JS。",
-      "descEn": "Built with AI assistance as a personal learning project: editorial layout, a constellation canvas, theme switch, bilingual copy, background music, and an portfolio FAQ. Zero frameworks, zero dependencies.",
+      "desc": "个人作品与实习信息展示站，提供中英文切换、主题切换和一页简历下载。",
+      "descEn": "A personal portfolio with project summaries, internship information, language and theme switching, and a one-page CV download.",
       "highlights": [
-        "借助 AI 完成页面排版与交互设计",
-        "Canvas 星座连线背景、滚动进度条、错峰入场动画",
-        "Web Audio 生成的环境音乐 + 可升级为真·大模型的 AI 问答助手"
+        "集中展示学习基础、项目与联系方式"
       ],
       "highlightsEn": [
-        "AI-assisted layout and interaction design",
-        "Canvas constellation background, scroll progress, staggered entrances",
-        "Web Audio generative ambient music + an portfolio FAQ upgradeable to a real LLM"
+        "Brings together foundations, projects and contact details"
       ],
       "tags": [
         "HTML",
@@ -287,40 +298,17 @@ const DATA = {
           },
           "href": "https://github.com/wenhulaojiu/portfolio"
         }
-      ]
-    }
-  ],
-  "stats": [
-    {
-      "num": 6,
-      "suffix": " 个",
-      "suffixEn": "",
-      "label": "AI 辅助实践项目",
-      "labelEn": "AI-assisted projects"
-    },
-    {
-      "num": 2025,
-      "suffix": " 级",
-      "suffixEn": "",
-      "label": "福建师范大学",
-      "labelEn": "Fujian Normal University"
+      ],
+      "featured": false
     }
   ],
   "contacts": [
     {
       "icon": "✉",
-      "label": "QQ 邮箱（首选）",
-      "labelEn": "QQ Mail (primary)",
+      "label": "邮箱",
+      "labelEn": "EMAIL",
       "value": "313242038@qq.com",
       "href": "mailto:313242038@qq.com",
-      "copyable": true
-    },
-    {
-      "icon": "✉",
-      "label": "GMAIL",
-      "labelEn": "GMAIL",
-      "value": "webhulaojiu@gmail.com",
-      "href": "mailto:webhulaojiu@gmail.com",
       "copyable": true
     },
     {
@@ -338,99 +326,86 @@ const DATA = {
       "value": "haaaaaapyu",
       "href": "",
       "copyable": true
-    },
-    {
-      "icon": "🐧",
-      "label": "QQ",
-      "labelEn": "QQ",
-      "value": "313242038",
-      "href": "",
-      "copyable": true
     }
   ],
   "chatFAQ": [
     {
       "keys": [
         "技能",
-        "会什么",
         "技术",
+        "会什么",
         "语言",
-        "技术栈",
-        "stack",
-        "会啥"
+        "指针",
+        "c++"
       ],
       "keysEn": [
         "skill",
-        "tech",
-        "stack",
         "language",
-        "what can he"
+        "pointer",
+        "tech"
       ],
-      "answer": "洋意能编写 C、C++、Java、SQL、Python 和基础 HTML，\n通过 AI 辅助实践接触过 Node 后端、Chrome 浏览器扩展（MV3）和大模型 API 集成（流式对话、语义评分）。\n详细版可以看「技能版图」那一节～",
-      "answerEn": "Zhu writes basic C, C++, Java, SQL, Python and HTML.\nHis AI-assisted projects include a Node backend, a Chrome extension (MV3), and LLM integrations — streaming chat and semantic scoring.\nSee the Skill Map section for details."
+      "answer": "主要学习 C 和 C++，当前进度到指针，能编写基础代码；也有 Java、Python、SQL 与 HTML 基础。",
+      "answerEn": "My main focus is C and C++, currently through pointers. I also have basic Java, Python, SQL and HTML experience."
     },
     {
       "keys": [
         "项目",
         "作品",
-        "做过什么",
-        "做了什么",
+        "做过",
         "游戏",
         "插件",
-        "扩展"
+        "慢游",
+        "贡献",
+        "ai"
       ],
       "keysEn": [
         "project",
         "work",
-        "built",
         "game",
-        "extension",
-        "made"
+        "ai",
+        "contribution"
       ],
-      "answer": "我的 AI 辅助实践项目包括：毛线守恒 H5 三猫解谜游戏、慢游旅行路线规划、圈层谣言攻防战、刘看山网页助手、AI 伪装狼人杀和这个作品集。项目技术标签说明实现方式，不代表本人已独立掌握。",
-      "answerEn": "My AI-assisted projects include Yarn Conservation H5, Manyou travel planning, Circle Rumor Warfare, Liu Kanshan Web Assistant, AI Werewolf and this portfolio. Project technology tags describe implementation, not independent proficiency."
+      "answer": "项目包括毛线守恒、慢游、网页助手、谣言攻防战、狼人杀和本站。我的参与方式是通过提示词表达需求，由 AI 生成代码与实现；各项目链接和说明在项目区。",
+      "answerEn": "Projects include Yarn Conservation, Manyou, the web assistant, Rumor Warfare, Werewolf and this site. My role is describing requirements through prompts, with AI generating the implementation. See the project section for links."
     },
     {
       "keys": [
         "实习",
         "求职",
-        "找工作",
         "岗位",
         "方向",
-        "招聘",
-        "面试"
+        "城市",
+        "到岗",
+        "寒假",
+        "出勤"
       ],
       "keysEn": [
         "intern",
-        "hire",
-        "hiring",
         "job",
-        "recruit",
-        "available"
+        "hire",
+        "city",
+        "winter",
+        "available",
+        "schedule"
       ],
-      "answer": "洋意正在寻找 2027 暑期 / 日常开发实习，方向是开发实习与项目学习，\n坐标福州、可远程可到岗。页面底部的邮箱可以直接投递岗位信息，24 小时内回复！",
-      "answerEn": "Zhu is looking for 2027 summer / part-time internships in development and project learning,\nbased in Fuzhou, remote OK. Email at the bottom of the page — replies within 24 hours."
+      "answer": "正在寻找开发实习，寒假可到岗，城市暂无偏好。每周出勤与实习周期待沟通。",
+      "answerEn": "I’m seeking a development internship, available during winter break with no city preference. The weekly schedule and duration are to be discussed."
     },
     {
       "keys": [
         "学校",
         "专业",
         "大学",
-        "年级",
-        "哪里",
-        "福州",
-        "福建"
+        "年级"
       ],
       "keysEn": [
         "school",
         "university",
         "major",
-        "study",
-        "where",
         "grade"
       ],
-      "answer": "他就读于福建师范大学计算机专业，2025 级本科（现在大二），\n数据结构、算法等核心课都在稳扎稳打地推进。",
-      "answerEn": "He studies Computer Science at Fujian Normal University, class of 2025 (sophomore),\nwith data structures, algorithms and other core courses steadily progressing."
+      "answer": "福建师范大学计算机科学与技术专业，2025 级本科生，预计 2029 年毕业。",
+      "answerEn": "Computer Science undergraduate at Fujian Normal University, enrolled in 2025 and expected to graduate in 2029."
     },
     {
       "keys": [
@@ -438,55 +413,44 @@ const DATA = {
         "邮箱",
         "微信",
         "电话",
-        "qq",
         "github",
         "email"
       ],
       "keysEn": [
         "contact",
         "email",
-        "mail",
         "wechat",
-        "phone",
-        "github",
-        "reach"
+        "github"
       ],
-      "answer": "联系方式都在页面底部「联系」区：\n· QQ 邮箱：313242038@qq.com\n· 微信：haaaaaapyu\n· GitHub：github.com/wenhulaojiu\n都可以一键复制哦～",
-      "answerEn": "Everything is in the Contact section:\n· QQ Mail: 313242038@qq.com\n· WeChat: haaaaaapyu\n· GitHub: github.com/wenhulaojiu\nEvery card has one-click copy."
+      "answer": "邮箱：313242038@qq.com。也可通过页面底部的 GitHub 或微信联系方式联系。",
+      "answerEn": "Email: 313242038@qq.com. GitHub and WeChat contact details are also listed at the bottom of the page."
     },
     {
       "keys": [
         "你好",
         "hi",
         "hello",
-        "在吗",
-        "是谁",
-        "介绍",
-        "朱洋意",
-        "洋意"
+        "介绍"
       ],
       "keysEn": [
         "hi",
         "hello",
-        "hey",
-        "who",
-        "introduce",
-        "zhu"
+        "introduce"
       ],
-      "answer": "你好！我是朱洋意的 作品集问答 🤖\n可以问我：他会什么技术？做过什么项目？找什么方向的实习？",
-      "answerEn": "Hi! I'm Zhu's portfolio FAQ 🤖\nAsk me: what are his skills? what has he built? what internships is he looking for?"
+      "answer": "你好，这里是作品集常见问题。可以查看编程基础、项目和实习安排。",
+      "answerEn": "Hello! This FAQ covers programming foundations, projects and internship availability."
     }
   ],
-  "chatFallback": "这个问题我还在学习中 🤔 换个问法试试：\n· 他会哪些技术？\n· 做过什么项目？\n· 想找什么实习？",
-  "chatFallbackEn": "Still learning that one 🤔 Try asking:\n· What are his skills?\n· What has he built?\n· What internships is he looking for?",
+  "chatFallback": "暂未收录这个问题，可以通过页面底部的邮箱联系我。",
+  "chatFallbackEn": "This question is not in the FAQ yet. Please contact me by email.",
   "chatChips": [
-    "会什么技术？",
-    "做过什么项目？",
-    "招实习生吗？"
+    "编程基础",
+    "项目参与方式",
+    "实习安排"
   ],
   "chatChipsEn": [
-    "His skills?",
-    "His projects?",
-    "Hiring interns?"
+    "Programming basics",
+    "Project role",
+    "Availability"
   ]
 };
