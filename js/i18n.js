@@ -30,7 +30,7 @@ const I18N = {
     zh: "你好！我是朱洋意，福建师范大学计算机专业 2025 级本科生。从写下第一行 Hello&nbsp;World 开始，我就对「做东西给人用」这件事上了瘾。",
     en: "Hi! I'm Zhu Yangyi, a CS undergraduate (class of 2025) at Fujian Normal University. Ever since my first Hello&nbsp;World, I've been hooked on building things people actually use.",
   },
-  "about.p1": {"zh": "我借助 AI 完成了圈层谣言攻防战、AI 伪装狼人杀、刘看山网页助手、慢游路线规划和这个作品集。这些作品记录了我的项目实践，不代表其中所有技术都已能独立实现。", "en": "I used AI to build Circle Rumor Warfare, AI Werewolf, Liu Kanshan Web Assistant, Manyou travel planning and this portfolio. These projects document my practice, rather than independent mastery of every technology used."},
+  "about.p1": {"zh": "我借助 AI 完成了毛线守恒 H5、圈层谣言攻防战、AI 伪装狼人杀、刘看山网页助手、慢游路线规划和这个作品集。这些作品记录了我的项目实践，不代表其中所有技术都已能独立实现。", "en": "I used AI to build Yarn Conservation H5, Circle Rumor Warfare, AI Werewolf, Liu Kanshan Web Assistant, Manyou travel planning and this portfolio. These projects document my practice, rather than independent mastery of every technology used."},
   "about.p2": {"zh": "目前能够编写 C、C++、Java、SQL、Python 和基础 HTML。接下来希望从已有项目的小功能入手，逐步理解代码、练习修改，并巩固编程基础。", "en": "My current foundation includes C, C++, Java, SQL, Python and basic HTML. I aim to learn small features in these projects, understand their code and practise making changes."},
   "about.eduSchool": { zh: "福建师范大学", en: "Fujian Normal University" },
   "about.eduMajor": { zh: "计算机科学与技术 · 本科在读（大二）", en: "B.Sc. in Computer Science · Sophomore" },
